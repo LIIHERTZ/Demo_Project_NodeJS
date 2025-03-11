@@ -1,6 +1,15 @@
-doctype html 
-html    
-    head 
-        title Trang chủ
-    body    
-        h1 trang chủ products
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+    .container.my-3 
+        .row 
+            .col-12 
+                +box-head("Danh sách sản phẩm")
+        .row 
+            each item in products
+                .col-4.mb-3 
+                    .product-item 
+                        .inner-image 
+                            a #{item.name}
+                        
