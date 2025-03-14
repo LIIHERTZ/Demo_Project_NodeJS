@@ -4,6 +4,8 @@ const controller = require("../../controllers/admin/product.controller.js");
 
 router.get('/', controller.index);
 
-router.get('/edit', controller.edit);
+router.patch('/change-Status/:status/:id', controller.changeStatus);
+
+router.patch('/change-multi', controller.changeMulti);
 
 module.exports = router
