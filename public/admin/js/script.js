@@ -84,17 +84,57 @@ if (formChangeMulti){
         e.preventDefault();
         const checkboxMulti = document.querySelector('[checkbox-multi]');
         const inputChecked = checkboxMulti.querySelectorAll("input[name='id']:checked");
+        const typeChange = e.target.elements.type.value;
+        if (typeChange == "delete-all"){
+            const isConfirm = confirm("Bạn có chắc xóa sản phẩm?");
+            if (!isConfirm){
+                return;
+            };
+        }
         if (inputChecked.length > 0){
             let ids = [];
             const inputIds = formChangeMulti.querySelector("input[name='ids']");
 
             inputChecked.forEach(input => {
-                ids.push(input.value);
+                if (typeChange == "change-position"){
+                    const position = input.closest("tr").querySelector("input[name='position']").value;
+                    ids.push(`${input.value}-${position}`);
+                }else{
+                    ids.push(input.value);
+                }
             });
+
             inputIds.value = ids.join(', ');
             formChangeMulti.submit();
+            
         } else {
             alert("Vui lòng chọn ít nhẩt 1 sản phẩm");
+        }
+    });
+}
+
+//Show Alert
+const showAlert = document.querySelector("[show-alert]");
+if (showAlert){
+    const time = parseInt(showAlert.getAttribute("data-time"));
+    const closeAlert = document.querySelector("[close-alert]");
+    setTimeout(() =>{
+        showAlert.classList.add("alert-hidden");
+    },time);
+    closeAlert.addEventListener("click",() => {
+        showAlert.classList.add("alert-hidden");
+    });
+}
+
+// Upload Images
+const uploadImage = document.querySelector("[upload-image]");
+if (uploadImage){
+    const uploadImageInput = document.querySelector("[upload-image-input]");
+    const uploadImagePreview = document.querySelector("[upload-image-preview]");
+    uploadImageInput.addEventListener("change",(e) => {
+        const file = e.target.files[0];
+        if(file){
+            uploadImagePreview.src = URL.createObjectURL(file);
         }
     });
 }

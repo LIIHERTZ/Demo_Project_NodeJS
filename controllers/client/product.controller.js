@@ -1,7 +1,7 @@
 const Product = require("../../models/product.model.js");
 // [GET] /products
 module.exports.index = async (req, res) => {
-    const products = await Product.find({cuisine: 'Pizza'});
+    const products = await Product.find({cuisine: 'Pizza'}).sort({position: 'asc'});
     res.render("client/pages/products/index.pug",{
         pageTitle: "Products",
         products: products
