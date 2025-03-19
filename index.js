@@ -19,7 +19,6 @@ const port = process.env.PORT;
 
 app.set("views",`${__dirname}/views`);
 app.set("view engine", "pug");
-console.log(__dirname);
 app.use(express.static(`${__dirname}/public`));
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: false }));
