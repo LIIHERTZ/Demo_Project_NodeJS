@@ -4,6 +4,6 @@ const controller = require("../../controllers/client/product.controller.js");
 
 router.get('/', controller.index);
 
-router.get('/edit', controller.edit);
+router.get('/:slug', controller.detail);
 
 module.exports = router
