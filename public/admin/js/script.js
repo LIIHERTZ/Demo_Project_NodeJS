@@ -1,3 +1,4 @@
+
 // Button status 
 const btnStatus = document.querySelectorAll('[button-status]');
 if (btnStatus.length>0){
@@ -44,7 +45,7 @@ if (butonPagination.length>0){
             window.location.href = url.href;
         });
     });
-};
+}
 
 //Checkbox Multi
 const checkboxMulti = document.querySelector('[checkbox-multi]');
@@ -137,4 +138,33 @@ if (uploadImage){
             uploadImagePreview.src = URL.createObjectURL(file);
         }
     });
+}
+
+// Sort
+const sort = document.querySelector("[sort]");
+if (sort){
+    let url = new URL(window.location.href);
+    const sortSelect = document.querySelector("[sort-select]");
+    const sortClear = document.querySelector("[sort-clear]"); 
+    sortSelect.addEventListener("change",(e)=>{
+        const value = e.target.value;
+        const[sortKey, sortValue] = value.split('-');
+        url.searchParams.set("sortKey", sortKey);
+        url.searchParams.set("sortValue", sortValue);
+
+        window.location.href = url.href;
+    });
+    sortClear.addEventListener("change",(e)=>{
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        window.location.href = url.href;
+    });
+
+    const sortKey = url.searchParams.get("sortKey");
+    const sortValue = url.searchParams.get("sortValue");
+    if (sortKey && sortValue) {
+        const stringSort = `${sortKey}-${sortValue}`;
+        const optionSelected = sortSelect.querySelector(`option[value="${stringSort}"]`)
+        optionSelected.selected = true;
+    };
 }
