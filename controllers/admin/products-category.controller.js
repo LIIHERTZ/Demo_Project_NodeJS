@@ -3,6 +3,7 @@ const systemConfig = require("../../config/system.js");
 const filterStatusHelper = require("../../helpers/filterStatus.js");
 const searchHelper = require("../../helpers/search.js");
 const paginationHelper = require("../../helpers/pagination.js");
+const createTreeHelper = require("../../helpers/createTree.js");
 
 
 // [GET] /admin/products-category
@@ -35,14 +36,17 @@ module.exports.index = async (req, res) => {
     }else{
         sort.position = "desc";
     }
-    const records = await ProductCategory.find(find)
-    .sort(sort)
-    .limit(objectPagination.limitItems)
-    .skip( objectPagination.skip);
+
+    const records = await ProductCategory.find(find);
+    // .sort(sort)
+    // .limit(objectPagination.limitItems)
+    // .skip( objectPagination.skip);
+
+    const newRecords = createTreeHelper(records);
 
     res.render("admin/pages/products-category/index.pug",{
         pageTitle: "Products Category",
-        records: records,
+        records: newRecords,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword,
         pagination: objectPagination
@@ -107,8 +111,17 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/products-category/create
 module.exports.create = async (req, res) => {
+    const find = {
+        deleted : false
+    };
+
+    const records = await ProductCategory.find(find);
+
+    const newRecords = createTreeHelper(records);
+
     res.render("admin/pages/products-category/create.pug",{
-        pageTitle: "Create Products Category"
+        pageTitle: "Create Products Category",
+        records: newRecords
     });
 };
 
