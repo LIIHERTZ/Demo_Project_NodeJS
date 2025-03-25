@@ -1,10 +1,12 @@
 const Product = require("../../models/product.model.js");
+const ProductCategory = require("../../models/products-category.model.js");
 
 const systemConfig = require("../../config/system.js");
 
 const filterStatusHelper = require("../../helpers/filterStatus.js");
 const searchHelper = require("../../helpers/search.js");
 const paginationHelper = require("../../helpers/pagination.js");
+const createTreeHelper = require("../../helpers/createTree.js");
 
 
 // [GET] /admin/products
@@ -112,8 +114,16 @@ module.exports.deleteItem = async (req, res) => {
 
 //[GET] /admin/products/create
 module.exports.create = async (req, res) => {
+    const find = {
+        deleted : false
+    };
+
+    const records = await ProductCategory.find(find);
+
+    const newRecords = createTreeHelper(records);
     res.render("admin/pages/products/create.pug",{
-        pageTitle: "CreareProduct"
+        pageTitle: "CreareProduct",
+        records: newRecords
     });
 };
 
@@ -146,10 +156,13 @@ module.exports.edit = async (req, res) =>{
             deleted: false,
             _id: req.params.id
         };
+        const records = await ProductCategory.find({deleted: false});
+        const newRecords = createTreeHelper(records);
         const product = await Product.findOne(find);
         res.render("admin/pages/products/edit.pug",{
             pageTitle: "EditProduct",
-            product: product
+            product: product,
+            records: newRecords
         });
 
     }
@@ -187,9 +200,11 @@ module.exports.detail = async(req, res) =>{
             _id: req.params.id
         };
         const product = await Product.findOne(find);
+        const parentRecord = await ProductCategory.findOne({_id: product.product_category_id,  deleted: false});
         res.render("admin/pages/products/detail.pug",{
             pageTitle: product.title,
-            product: product
+            product : product,
+            category: parentRecord.title
         });
 
     }

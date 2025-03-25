@@ -146,10 +146,13 @@ module.exports.edit = async (req, res) =>{
             deleted: false,
             _id: req.params.id
         };
+        const records = await ProductCategory.find({deleted: false});
+        const newRecords = createTreeHelper(records);
         const productCategory = await ProductCategory.findOne(find);
         res.render("admin/pages/products-category/edit.pug",{
             pageTitle: "EditProductCategory",
-            productCategory: productCategory
+            productCategory: productCategory,
+            records: newRecords
         });
 
     }
@@ -184,9 +187,11 @@ module.exports.detail = async(req, res) =>{
             _id: req.params.id
         };
         const record = await ProductCategory.findOne(find);
+        const parentRecord = await ProductCategory.findOne({_id: record.parent_id,  deleted: false});
         res.render("admin/pages/products-category/detail.pug",{
             pageTitle: record.title,
-            record: record
+            record: record,
+            parent: parentRecord
         });
 
     }

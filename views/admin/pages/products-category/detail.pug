@@ -7,7 +7,7 @@ block main
     if (record.title) 
         h1(class="mb-4") #{record.title} 
     if (record.parent_id) 
-        div(class="mb-4") Danh mục cha: <b>#{record.parent_id}</b> 
+        div(class="mb-4") Danh mục cha: <b>#{parent.title}</b> 
     if (record.thumbnail) 
         div(class="mb-4") 
             img( 
