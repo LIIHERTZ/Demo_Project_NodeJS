@@ -64,7 +64,6 @@ module.exports.changeStatus = async (req, res) => {
     res.redirect("back");
 };
 
-
 // [PATCH] /admin/products/change-multi
 module.exports.changeMulti = async (req, res) => {
     const ids = req.body.ids.split(", ");

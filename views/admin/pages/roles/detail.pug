@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert-success.pug
+
+block main 
+    +alert-error(5000)
+    +alert-success(5000)
+    if (record.title) 
+        h1(class="mb-4") #{record.title} 
+    if (record.description) 
+        div(class="mb-4") !{record.description}
+
+    a(
+        href=`${prefixAdmin}/roles/edit/${record.id}`
+        class="btn btn-warning"
+        ) Chỉnh sửa
+
+    script(src="/admin/js/product.js")
