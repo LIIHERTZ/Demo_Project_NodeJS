@@ -7,7 +7,7 @@ block main
     if (product.title) 
         h1(class="mb-4") #{product.title} 
     if (product.product_category_id) 
-        div(class="mb-4") Danh mục: <b>#{category}</b> 
+        div(class="mb-4") Danh mục: <b>#{category.title}</b> 
     if (product.price) 
         div(class="mb-4") Giá: <b>#{product.price}$</b> 
     if (product.discountPercentage) 
@@ -32,9 +32,10 @@ block main
     if (product.description) 
         div(class="mb-4") !{product.description}
 
-    a(
-        href=`${prefixAdmin}/products/edit/${product.id}`
-        class="btn btn-warning"
-        ) Chỉnh sửa
+    if(role.permissions.includes("products_edit"))
+        a(
+            href=`${prefixAdmin}/products/edit/${product.id}`
+            class="btn btn-warning"
+            ) Chỉnh sửa
 
     script(src="/admin/js/product.js")

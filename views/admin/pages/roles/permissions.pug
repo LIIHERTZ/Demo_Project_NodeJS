@@ -32,6 +32,12 @@ block main
                 +table-permission(records,"products-category","Danh mục sản phẩm")
                 +table-permission(records,"products","Danh sách sản phẩm")
                 +table-permission(records,"roles","Nhóm quyền")
+                tr(data-name="roles_permission") 
+                    td Phân quyền 
+                    each item in records
+                        td(class="text-center") 
+                            input(type="checkbox") 
+                +table-permission(records,"accounts","Danh sách tài khoản")
 
     form( 
         id="form-change-permissions" 

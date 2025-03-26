@@ -10,47 +10,49 @@ include ../../mixins/table-tree.pug
 block main 
     +alert-success(5000)
     +alert-error(5000)
-    h1 Danh mục sản phẩm
-    .card.mb-3 
-        .card-header Bộ lọc và Tìm kiếm 
-        .card-body 
-            .row
-                .col-6
-                    +filter-status(filterStatus)
-                .col-6
-                    +search(keyword)
+    if(role.permissions.includes("products-category_view"))
+        h1 Danh mục sản phẩm
+        .card.mb-3 
+            .card-header Bộ lọc và Tìm kiếm 
+            .card-body 
+                .row
+                    .col-6
+                        +filter-status(filterStatus)
+                    .col-6
+                        +search(keyword)
 
-    +sort-category()
+        +sort-category()
 
-    .card.mb-3 
-        .card-header Danh sách
-        .card-body 
-            .row 
-                .col-8
-                    +form-change-multi(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
-                .col-4
-                    a(
-                        href=`${prefixAdmin}/products-category/create`
-                        class="btn btn-outline-success"
-                    )  + Thêm mới
-            table(
-                class="table table-hover table-sm"
-                checkbox-multi 
-            )
-                thead 
-                    tr 
-                        th 
-                            input(type="checkbox" name="checkall")
-                        th STT 
-                        th Hình ảnh 
-                        th Tiêu đề 
-                        th Vị trí
-                        th Trạng thái 
-                        th Hành động
+        .card.mb-3 
+            .card-header Danh sách
+            .card-body 
+                .row 
+                    .col-8
+                        +form-change-multi(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
+                    .col-4
+                        if(role.permissions.includes("products-category_create"))
+                            a(
+                                href=`${prefixAdmin}/products-category/create`
+                                class="btn btn-outline-success"
+                            )  + Thêm mới
+                table(
+                    class="table table-hover table-sm"
+                    checkbox-multi 
+                )
+                    thead 
+                        tr 
+                            th 
+                                input(type="checkbox" name="checkall")
+                            th STT 
+                            th Hình ảnh 
+                            th Tiêu đề 
+                            th Vị trí
+                            th Trạng thái 
+                            th Hành động
 
 
-                tbody 
-                    +table-tree(records)
+                    tbody 
+                        +table-tree(records)
     //- nav 
     //-     +pagination(pagination)
     form(

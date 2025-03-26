@@ -187,7 +187,10 @@ module.exports.detail = async(req, res) =>{
             _id: req.params.id
         };
         const record = await ProductCategory.findOne(find);
-        const parentRecord = await ProductCategory.findOne({_id: record.parent_id,  deleted: false});
+        let parentRecord = null;
+        if (record.parent_id) {
+            parentRecord = await ProductCategory.findOne({ _id: record.parent_id, deleted: false });
+        }
         res.render("admin/pages/products-category/detail.pug",{
             pageTitle: record.title,
             record: record,

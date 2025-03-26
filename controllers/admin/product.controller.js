@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model.js");
 const ProductCategory = require("../../models/products-category.model.js");
+const Account = require("../../models/account.model.js");
 
 const systemConfig = require("../../config/system.js");
 
@@ -24,7 +25,6 @@ module.exports.index = async (req, res) => {
     if (req.query.status){
         find.status = req.query.status;
     }
-
     //Pagination
     const countProducts = await Product.countDocuments(find);
     let objectPagination = paginationHelper (
@@ -46,6 +46,14 @@ module.exports.index = async (req, res) => {
     .sort(sort)
     .limit(objectPagination.limitItems)
     .skip( objectPagination.skip);
+    for (const product of products){
+        const user = await Account.findOne({
+            _id: product.createdBy.acconut_id
+        });
+        if (user){
+            product.accountFullname = user.fullName;
+        }
+    }
     res.render("admin/pages/products/index.pug",{
         pageTitle: "Products",
         products: products,
@@ -142,6 +150,9 @@ module.exports.createPost = async (req, res) => {
     } else{
         req.body.position = parseInt(req.body.position);
     }
+    req.body.createdBy = {
+        acconut_id : res.locals.user.id
+    };
     const product = new Product(req.body);
     await product.save();
 
@@ -199,11 +210,14 @@ module.exports.detail = async(req, res) =>{
             _id: req.params.id
         };
         const product = await Product.findOne(find);
-        const parentRecord = await ProductCategory.findOne({_id: product.product_category_id,  deleted: false});
+        let parentRecord =null;
+        if(product.product_category_id){
+            parentRecord = await ProductCategory.findOne({_id: product.product_category_id,  deleted: false});
+        };
         res.render("admin/pages/products/detail.pug",{
             pageTitle: product.title,
             product : product,
-            category: parentRecord.title
+            category: parentRecord
         });
 
     }
