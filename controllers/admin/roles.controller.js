@@ -93,3 +93,38 @@ module.exports.detail = async(req, res) =>{
         res.redirect(`${systemConfig.prefixAdmin}/roles`);
     }
 };
+
+//[GET] /permissions
+module.exports.permissions = async(req, res) =>{
+    try{
+        const find = {
+            deleted: false,
+        };
+        const records = await Role.find(find);
+        res.render("admin/pages/roles/permissions.pug",{
+            pageTitle: "Phân quyền",
+            records : records
+        });
+
+    }
+    catch(error){
+        req.flash("error", "Không tồn tại quyền!");
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    }
+};
+
+
+//[PATCH] /permissions
+module.exports.permissionsPatch = async(req, res) =>{
+    try{
+        const permissions = JSON.parse(req.body.permissions);
+        for(const item of permissions){
+            await Role.updateOne({_id: item.id},{permissions: item.permissions});
+        }
+        req.flash("success", "Update quyền thành công!");
+        res.redirect("back");
+    }catch(error){
+        req.flash("error", "Lỗi update!");
+        res.redirect(`${systemConfig.prefixAdmin}/roles/permissions`);
+    }
+}

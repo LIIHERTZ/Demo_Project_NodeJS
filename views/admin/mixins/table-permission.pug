@@ -1,0 +1,24 @@
+mixin table-permission(records, string, tableName)
+    tr 
+        td(colspan="4") 
+            b #{tableName}
+    tr(data-name= string + "_view") 
+        td Xem 
+        each item in records
+            td(class="text-center") 
+                input(type="checkbox") 
+    tr(data-name=string + "_create") 
+        td Thêm mới 
+        each item in records
+            td(class="text-center") 
+                input(type="checkbox") 
+    tr(data-name=string + "_edit") 
+        td Chỉnh sửa 
+        each item in records
+            td(class="text-center") 
+                input(type="checkbox") 
+    tr(data-name=string + "_delete") 
+        td Xóa 
+        each item in records
+            td(class="text-center") 
+                input(type="checkbox") 
