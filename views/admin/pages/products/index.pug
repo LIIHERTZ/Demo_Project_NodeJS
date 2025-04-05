@@ -52,6 +52,7 @@ block main
                         th Vị trí
                         th Trạng thái 
                         th Người tạo
+                        th Người cập nhật
                         th Hành động
 
 
@@ -104,8 +105,14 @@ block main
                                         ) Dừng hoạt động
 
                             td 
-                                p #{item.accountFullname} 
-                                +formatDateTime(item)
+                                if (item.accountFullname)
+                                    p #{item.accountFullname} 
+                                    +formatDateTime(item.createdBy.createAt)
+                            td
+                                - const updateBy = item.updateBy.slice(-1)[0];
+                                if (updateBy)
+                                    p #{updateBy.accountFullname}
+                                    +formatDateTime(updateBy.updateAt)
                             td 
                                 a(
                                     href=`${prefixAdmin}/products/detail/${item.id}`
