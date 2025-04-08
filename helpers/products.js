@@ -6,6 +6,7 @@ module.exports.priceNewProduct = (products) => {
 };
 
 module.exports.priceProduct = (item) => {
-    item.priceNew = Math.ceil(item.price * (100 - item.discountPercentage)/100).toFixed(0);
+    const priceNew = item.priceNew = Math.ceil(item.price * (100 - item.discountPercentage)/100).toFixed(0);
+    return parseInt(priceNew);
 };
 

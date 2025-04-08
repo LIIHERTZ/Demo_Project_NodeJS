@@ -52,6 +52,7 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
+    position: relative;
 }
 
 .product-item .inner-image {
