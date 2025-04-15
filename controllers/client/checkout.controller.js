@@ -75,8 +75,20 @@ module.exports.order = async (req, res) => {
 
 // [GET] /checkout/success/:orderId
 module.exports.success = async (req, res) => {
-    req.params.orderId
+    const order = await Order.findOne({
+        _id :req.params.orderId 
+    });
+    for (const product of order.products){
+        const productInfo = await Product.findOne({
+            _id: product.product_id
+        }).select("title thumbnail");
+        product.productInfo = productInfo;
+        product.priceNew = productHelper.priceProduct(product);
+        product.totalPrice = product.priceNew * product.quantity;
+    };
+    order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0);
     res.render("client/pages/checkout/success.pug", {
-        pageTitle: "Thanh toán"
+        pageTitle: "Thanh toán",
+        order : order
     });
 };
