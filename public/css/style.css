@@ -40,7 +40,7 @@
     margin-bottom: 30px;
 }
 
-.box-head.inner-title {
+.box-head .inner-title {
     margin-bottom: 0;
     font-size: 28px;
     font-weight: 600;

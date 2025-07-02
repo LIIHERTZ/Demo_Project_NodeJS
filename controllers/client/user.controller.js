@@ -1,4 +1,5 @@
 const User = require("../../models/user.model.js");
+const Cart = require("../../models/cart.model.js");
 const ForgotPassword = require("../../models/forgot-password.model.js");
 const md5 = require("md5");
 const generateHelper = require("../../helpers/generate.js");
@@ -61,6 +62,21 @@ module.exports.loginPost = async (req, res) => {
         res.redirect("back");
         return;
     }
+    const cart = await Cart.findOne({
+        user_id : user.id
+    });
+    if (cart){
+        await Cart.deleteOne({_id: req.cookies.cartId});
+        res.cookie('cartId', cart._id, {
+            expires: new Date(Date.now() + 1000*60*60*24*365),
+        });
+    } else {
+        await Cart.updateOne({
+            _id: req.cookies.cartId
+        },{
+            user_id : user.id
+        });
+    };
     res.cookie("tokenUser", user.tokenUser);
     res.redirect(`/`);
 };
@@ -69,6 +85,7 @@ module.exports.loginPost = async (req, res) => {
 // [GET] /user/logout
 module.exports.logout = async (req, res) => {
     res.clearCookie("tokenUser");
+    res.clearCookie("cartId");
     res.redirect("/");
 };
 
@@ -167,3 +184,9 @@ module.exports.resetPasswordPost = async (req, res) => {
     res.redirect("/");
 };
 
+// [GET] /user/info
+module.exports.info = async (req, res) => {
+    res.render("client/pages/user/info",{
+        pageTitle: "Thông tin cá nhân"
+    });
+};

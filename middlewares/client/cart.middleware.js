@@ -1,4 +1,5 @@
 const Cart = require('../../models/cart.model');
+const User = require("../../models/user.model");
 
 module.exports.cartId = async (req, res, next) => {
     if (!req.cookies.cartId) {
@@ -14,6 +15,12 @@ module.exports.cartId = async (req, res, next) => {
         const cart = await Cart.findOne({
             _id: req.cookies.cartId
         });
+        if (req.cookies.tokenUser){
+            const user = await User.findOne({tokenUser:req.cookies.tokenUser});
+            if (user && !cart.user_id) {
+                await cart.updateOne({ user_id: user.id });
+            }
+        };
         const totalQuantity = cart.product.reduce((sum, item) => sum + item.quantity,0);
         cart.totalQuantity = totalQuantity;
         res.locals.miniCart = cart;
