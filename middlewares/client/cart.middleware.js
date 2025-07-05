@@ -21,9 +21,19 @@ module.exports.cartId = async (req, res, next) => {
                 await cart.updateOne({ user_id: user.id });
             }
         };
-        const totalQuantity = cart.product.reduce((sum, item) => sum + item.quantity,0);
-        cart.totalQuantity = totalQuantity;
-        res.locals.miniCart = cart;
+        if(cart){
+            const totalQuantity = cart.product.reduce((sum, item) => sum + item.quantity,0);
+            cart.totalQuantity = totalQuantity;
+            res.locals.miniCart = cart;
+        }
+        else{
+            const expriresCookie = 1000*60*60*24*365;
+            const cart = new Cart();
+            await cart.save();
+            res.cookie('cartId', cart._id, {
+                expires: new Date(Date.now() + expriresCookie),
+            });
+        };
     }
     next();
 }

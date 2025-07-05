@@ -19,6 +19,14 @@ database.connect(); // Kết nối tới MongoDB
 const app = express();           // Tạo app Express
 const port = process.env.PORT;  // Lấy PORT từ file .env
 
+// Socket.io
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+const server = createServer(app);
+const io = new Server(server);
+global._io = io;
+// End Socket.io
+
 app.set("views",`${__dirname}/views`);      // Thư mục chứa file Pug (HTML động)
 app.set("view engine", "pug");              // Engine hiển thị là Pug
 app.use(express.static(`${__dirname}/public`)); // Thư mục chứa ảnh, CSS, JS
@@ -53,4 +61,6 @@ app.get("*", (req, res) => {
     });
 });
 
-app.listen(port);
+server.listen(3000, () => {
+  console.log('Server running at http://localhost:3000');
+});

@@ -251,4 +251,219 @@
     cursor: pointer;
 }
 
-/* End Show Alert
+/* End Show Alert*/
+
+/* Chat */
+
+.chat {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat body - danh sách tin nhắn */
+.chat .inner-body {
+    flex: 1;
+    padding: 10px 12px;
+    /* tăng padding ngang cho đồng bộ */
+    overflow-y: auto;
+    background: #f9f9f9;
+}
+
+/* Tin nhắn chung */
+.chat .inner-incoming,
+.chat .inner-outgoing {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+/* Tin đến */
+.chat .inner-incoming {
+    align-self: flex-start;
+    max-width: 100%;
+}
+
+/* Tin gửi */
+.chat .inner-outgoing {
+    align-self: flex-end;
+    max-width: 100%;
+    text-align: right;
+}
+
+/* Tên người */
+.chat .inner-name {
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 2px;
+    color: #555;
+}
+
+/* Bong bóng tin đến */
+.chat .inner-incoming .inner-content {
+    background: #e4e6eb;
+    border-radius: 15px 15px 15px 0;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #000;
+    word-break: break-word;
+    align-self: flex-start;
+    /* Bảo đảm sát mép phải nhất có thể */
+}
+
+/* Bong bóng tin gửi */
+.chat .inner-outgoing .inner-content {
+    background: #FE5DA3;
+    border-radius: 15px 15px 0 15px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #fff;
+    word-break: break-word;
+    align-self: flex-end;
+    /* Bảo đảm sát mép phải nhất có thể */
+}
+
+/* Chân chat */
+.chat .inner-foot {
+    border-top: 1px solid #ddd;
+    padding: 10px 12px;
+    /* Cho khớp với .inner-body */
+    background: #fff;
+}
+
+/* Form nhập */
+.chat .inner-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Ô nhập */
+.chat .inner-form input {
+    flex: 1;
+    height: 32px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 0 10px;
+    outline: none;
+}
+
+/* Nút gửi */
+.chat .inner-form button {
+    border-radius: 15px;
+    border: 1px solid #FE5DA3;
+    background: #FE5DA3;
+    color: #fff;
+    height: 32px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.chat .inner-body .inner-images img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: #efefef;
+    padding: 10px;
+    margin: 0 5px 5px 0;
+    border-radius: 5px;
+}
+
+.chat .inner-body .inner-outgoing .inner-images {
+    margin-left: auto;
+    text-align: right;
+}
+
+.chat .inner-body .inner-outgoing .inner-images img {
+    margin: 0 0 5px 5px;
+}
+
+.chat .inner-preview-images {
+    position: relative;
+}
+
+.chat .inner-preview-images .label-container {
+    display: none;
+}
+
+.chat .inner-preview-images .input-container {
+    display: none;
+}
+
+.chat .inner-preview-images .image-preview {
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+}
+
+.chat .inner-preview-images .image-preview-item {
+    width: 90px;
+    background-size: contain;
+}
+
+/* End chat */
+
+
+/* Emoji picker */
+.tooltip {
+    visibility: hidden;
+}
+
+.tooltip.shown {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* box-typing */
+.box-typing {
+    position: relative;
+}
+
+.box-typing .inner-dots {
+    position: relative;
+    height: 20px;
+    width: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #efefef;
+    border-radius: 45px;
+    margin-top: 2px;
+}
+
+.box-typing .inner-dots span {
+    animation: blink 1.5s infinite;
+    height: 5px;
+    width: 5px;
+    background: #252525;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 3px;
+}
+
+.box-typing .inner-dots span:nth-child(2) {
+    animation-delay: 0.25;
+}
+
+.box-typing .inner-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.1;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+
+/* End box-typing */

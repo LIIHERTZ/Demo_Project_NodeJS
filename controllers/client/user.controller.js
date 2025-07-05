@@ -66,10 +66,12 @@ module.exports.loginPost = async (req, res) => {
         user_id : user.id
     });
     if (cart){
-        await Cart.deleteOne({_id: req.cookies.cartId});
-        res.cookie('cartId', cart._id, {
-            expires: new Date(Date.now() + 1000*60*60*24*365),
-        });
+        if(req.cookies.cartId != cart.id){
+            await Cart.deleteOne({_id: req.cookies.cartId});
+            res.cookie('cartId', cart._id, {
+                expires: new Date(Date.now() + 1000*60*60*24*365),
+            });
+        }
     } else {
         await Cart.updateOne({
             _id: req.cookies.cartId
