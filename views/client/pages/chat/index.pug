@@ -1,8 +1,13 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
+block chatCSS
+    link(rel="stylesheet", href="https://unpkg.com/file-upload-with-preview/dist/style.css")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.min.css")
+
 block main 
     .container.my-3
+        include ../../partials/list-btn-user.pug
         .row 
             .col-12 
                 +box-head('Chat')
@@ -57,5 +62,9 @@ block main
     div(class="tooltip" role="tooltip")
         emoji-picker(class="light")
 
-
+block chatScript
+    script(src="/socket.io/socket.io.js")
+    script(src="/js/socket.js")
+    script(type="module" src="/js/chat.js")
     script(type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.js")
