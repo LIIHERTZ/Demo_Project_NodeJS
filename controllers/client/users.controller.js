@@ -88,11 +88,16 @@ module.exports.friends = async (req, res) => {
 
     const friendList = myUser.friendList;
     const friendListId = friendList.map(item => item.user_id);
-    const users= await User.find({
+    const users = await User.find({
         _id : {$in: friendListId},
         status: "active",
         deleted: false
     }).select("id fullName avatar statusOnline");
+
+    for (const user of users) {
+        const infoUser = friendList.find( friend => friend.user_id == user.id);
+        user.infoFriend = infoUser;
+    };
 
     res.render("client/pages/users/friends.pug", {
         pageTitle: "Danh sách bạn bè",

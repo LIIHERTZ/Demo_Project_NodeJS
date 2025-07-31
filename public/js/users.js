@@ -129,3 +129,16 @@ socket.on("SERVER_RETURN_USERID_CANCEL_FRIEND", (data) => {
         }
     };
 });
+
+//SERVER_RETURN_USER_STATUS_ONLINE
+socket.on("SERVER_RETURN_USER_STATUS_ONLINE",(data)=>{
+    //Trang danh sách bạn bè
+    const dataUserFriend = document.querySelector("[data-users-friend]");
+    if (dataUserFriend) {
+        const boxUser = dataUserFriend.querySelector(`[user-id='${data.userId}']`);
+        if (boxUser){
+            boxUser.querySelector("[status]").setAttribute("status", data.status);
+        };
+    };
+});
+

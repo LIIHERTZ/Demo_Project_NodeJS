@@ -2,9 +2,11 @@ const uploadCloud = require("../../helpers/upload-cloudinary");
 const Chat = require("../../models/chat.model");
 
 
-module.exports =  (res) =>{
+module.exports = async (req, res) =>{
+    const roomChatId = req.params.roomChatId;
     // Lắng nghe Socket
     _io.once('connection', (socket) => {
+        socket.join(roomChatId);
         socket.on("CLIENT_SEND_MESSAGE", async (data)=>{
             let images = [];
 
@@ -12,15 +14,15 @@ module.exports =  (res) =>{
                 const link = await uploadCloud(image);
                 images.push(link);
             };
-
             const chat = new Chat({
                 user_id: res.locals.user.id,
+                room_chat_id: roomChatId,
                 content: data.content,
                 images : images
             });
             await chat.save();
             //Trả data về client
-            _io.emit("SERVER_RETURN_MESSAGE",{
+            _io.to(roomChatId).emit("SERVER_RETURN_MESSAGE",{
                 userId: res.locals.user.id,
                 fullName: res.locals.user.fullName,
                 content: data.content,
